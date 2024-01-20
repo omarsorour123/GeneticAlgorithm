@@ -110,8 +110,9 @@ class Population:
             self.pop = next_generation
 
             # Record the best fitness value in this generation
-            best_fitness = max(self.pop, key=lambda x: x.fitness(items, capacity)).fitness(items, capacity)
-            fitness_evolution.append(best_fitness)
+            total_fitness = sum(individual.fitness(items, capacity) for individual in self.pop)
+            average_fitness = total_fitness / len(self.pop)
+            fitness_evolution.append(average_fitness)
 
         return fitness_evolution
 
@@ -128,16 +129,16 @@ items = [
     (15, 10), (28, 18), (36, 23),(5,5)
 ]
 
-capacity = 100
+capacity = 120
 pop = Population(n=25)
 
 # Run the evolution for a certain number of generations
-generations = 15
+generations = 50
 fitness_evolution = pop.evolve(items, capacity, generations)
 
 # Plot the evolution of the fitness function
 plt.plot(range(1, generations + 1), fitness_evolution, marker='o')
 plt.title('Evolution of Fitness Function')
 plt.xlabel('Generation')
-plt.ylabel('Best Fitness Value')
+plt.ylabel('Average Population Fitness Value')
 plt.show()
